@@ -1,0 +1,64 @@
+/*
+ * Footstep Power Generation System
+ * --------------------------------
+ * This project detects footsteps using a piezoelectric sensor.
+ * The generated voltage is measured using Arduino.
+ *
+ * Components:
+ * - Arduino UNO
+ * - Piezoelectric Sensor
+ * - LED
+ * - Resistor
+ * - Capacitor
+ *
+ * Author: Your Name
+ */
+
+const int piezoPin = A0;
+const int ledPin = 13;
+
+int sensorValue;
+float voltage;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(piezoPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+
+  Serial.println("================================");
+  Serial.println(" Footstep Power Generation");
+  Serial.println("================================");
+}
+
+void loop() {
+
+  // Read the piezoelectric sensor
+  sensorValue = analogRead(piezoPin);
+
+  // Convert sensor reading to voltage
+  voltage = sensorValue * (5.0 / 1023.0);
+
+  // Display sensor value
+  Serial.print("Sensor Value: ");
+  Serial.print(sensorValue);
+
+  Serial.print(" | Voltage: ");
+  Serial.print(voltage);
+  Serial.println(" V");
+
+  // Detect a footstep
+  if (sensorValue > 100) {
+
+    digitalWrite(ledPin, HIGH);
+
+    Serial.println("Footstep Detected!");
+    Serial.println("Energy Generated");
+
+    delay(300);
+
+    digitalWrite(ledPin, LOW);
+  }
+
+  delay(100);
+}
